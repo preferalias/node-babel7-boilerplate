@@ -1,0 +1,29 @@
+nodejs:
+  replicaCount: 1
+  nameOverride: staging-cron-wefresh-trigger-store
+  imagePullSecrets:
+    name: senditregistry
+  image:
+    repository: registry.dev.sendit.asia/sendit/cron-wefresh-trigger-store
+    pullPolicy: Always
+  containerPorts:
+    - 80
+  env:
+    - name: PROJECT_NAME
+      value: cron-wefresh-trigger-store
+    - name: NODE_ENV
+      value: staging
+    - name: PORT
+      value: 80
+  workingDir: /var/source
+  healthCheck:
+    httpGet:
+      path: /system/health
+      port: 80
+  type: ClusterIP
+  default:
+    ports:
+      - name: staging-cron-wefresh-trigger-store
+        externalPort: 80
+        internalPort: 80
+        protocol: TCP

@@ -1,0 +1,25 @@
+nodejs:
+  replicaCount: 3
+  nameOverride: dev-fresh-noti-cron
+  imagePullSecrets:
+    name: senditregistry
+  image:
+    repository: registry.dev.sendit.asia/sendit/fresh-noti-cron
+    pullPolicy: Always
+  containerPorts:
+    - 80
+  env:
+    - name: PORT
+      value: 80
+  workingDir: /var/source
+  healthCheck:
+    httpGet:
+      path: /system/health
+      port: 80
+  type: ClusterIP
+  default:
+    ports:
+      - name: dev-fresh-noti-cron
+        externalPort: 80
+        internalPort: 80
+        protocol: TCP
