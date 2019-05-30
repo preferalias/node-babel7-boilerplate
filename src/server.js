@@ -1,18 +1,16 @@
-import fs from 'fs'
+import R from 'ramda'
+import { expData } from './expdata'
 
-function log(Class) {
-  return (...args) => {
-    console.log(args)
-    return new Class(...args)
-  }
+const dataFilter = (n) => {
+  const { lift, reservable } = n. quote
+  if(lift.maxPax > 20 
+    || lift.aircraftTailDetails.yearOfMake < 2009 
+    || lift.aircraftCategory === "Piston" 
+    || lift.aircraftCategory === "Turbo prop"
+    || reservable === false 
+    ) return true
+  return false
 }
 
-@log
-class Example {
-  constructor(name, age) {}
-}
-
-const e = new Example('Graham', 34)
-// [ 'Graham', 34 ]
-// console.log(e)
-// Example {}
+console.log(R.reject(dataFilter, expData.data.results).length)
+console.log(expData.data.results.length)
